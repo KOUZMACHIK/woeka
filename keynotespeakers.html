@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keynote Speakers - MEDI 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            max-width: 100%;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        body.menu-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        /* Navbar */
+        nav {
+            background: rgba(90, 90, 90, 1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #ffffff;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+
+        /* Transparent navbar on desktop - LIGHTER GREY BLUR */
+        @media (min-width: 769px) {
+            nav.transparent {
+                background: rgba(90, 90, 90, 0.6);
+                backdrop-filter: blur(12px);
+                box-shadow: none;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            }
+
+            nav.transparent .logo {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        .nav-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        /* Centered navigation when scrolled */
+        @media (min-width: 769px) {
+            nav:not(.transparent) .nav-container {
+                justify-content: center;
+                padding-left: 160px;
+                padding-right: 2rem;
+                padding-top: 0.3rem;
+                padding-bottom: 0.3rem;
+            }
+
+            nav:not(.transparent) .logo {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            nav:not(.transparent) .nav-menu {
+                margin-left: 0;
+                padding-right: 0;
+            }
+        }
+
+        /* Tablet screens - adjust spacing to prevent overlap */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            nav:not(.transparent) .nav-container {
+                justify-content: space-between;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            nav:not(.transparent) .logo {
+                font-size: 1.1rem;
+                position: relative;
+                left: 0;
+                transform: none;
+            }
+
+            nav:not(.transparent) .nav-menu {
+                margin-left: auto;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .nav-menu li a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Smaller tablets and narrow screens */
+        @media (min-width: 769px) and (max-width: 900px) {
+            nav:not(.transparent) .logo {
+                font-size: 0.95rem;
+            }
+
+            .nav-menu {
+                gap: 0.8rem;
+            }
+
+            .nav-menu li a {
+                font-size: 0.8rem;
+            }
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 0 0 auto;
+            padding-left: 1rem;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .logo-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Smaller logo when scrolled */
+        @media (min-width: 769px) {
+            nav:not(.transparent) .logo-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Hamburger Menu Icon */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #ffffff;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin-left: auto;
+            padding-right: 1rem;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-menu li a:hover {
+            color: #ffd4a3;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown > a {
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #ddf2f8;
+            min-width: 220px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0;
+            z-index: 1001;
+        }
+
+        /* Right-align dropdown for last menu item */
+        .nav-menu li:last-child .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+
+        /* Right-align dropdown for last two menu items on tablet screens */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .nav-menu li:nth-last-child(-n+2) .dropdown-menu {
+                left: auto;
+                right: 0;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: dropdownItemFadeIn 0.3s ease forwards;
+        }
+
+        .dropdown-menu li:nth-child(1) { animation-delay: 0.05s; }
+        .dropdown-menu li:nth-child(2) { animation-delay: 0.1s; }
+        .dropdown-menu li:nth-child(3) { animation-delay: 0.15s; }
+        .dropdown-menu li:nth-child(4) { animation-delay: 0.2s; }
+        .dropdown-menu li:nth-child(5) { animation-delay: 0.25s; }
+        .dropdown-menu li:nth-child(6) { animation-delay: 0.3s; }
+        .dropdown-menu li:nth-child(7) { animation-delay: 0.35s; }
+
+        @keyframes dropdownItemFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .dropdown-menu li a:hover {
+            background: #a8d5e6;
+            color: #333;
+            padding-left: 2rem;
+        }
+
+        .dropdown > a::after {
+            content: ' ▾';
+            font-size: 0.8rem;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 280px);
+            padding: 5rem 2rem;
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Scroll Animation Classes */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-animate.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: #2d2d2d;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .header-line {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #2d2d2d, #4a90a4);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* TBA Section */
+        .tba-section {
+            background: white;
+            padding: 4rem 3rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 3px solid #4a90a4;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .tba-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(74, 144, 164, 0.3);
+        }
+
+        .tba-icon svg {
+            width: 60px;
+            height: 60px;
+            color: white;
+        }
+
+        .tba-section h2 {
+            font-size: 2.5rem;
+            color: #4a90a4;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .tba-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #4b5563;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .tba-notice {
+            background: #e8f4f8;
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 5px solid #4a90a4;
+            margin-top: 2rem;
+        }
+
+        .tba-notice p {
+            font-size: 1.1rem;
+            color: #2d2d2d;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #f8fbfc 0%, #e8f4f8 100%);
+            border-radius: 12px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+
+        .contact-section h3 {
+            font-size: 1.5rem;
+            color: #2d2d2d;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .contact-section p {
+            font-size: 1.1rem;
+            color: #4b5563;
+            text-align: center;
+            margin: 0;
+        }
+
+        .contact-section a {
+            color: #4a90a4;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-section a:hover {
+            color: #0f766e;
+        }
+
+        /* Logos Section */
+        .logos-section {
+            background: white;
+            padding: 4rem 2rem 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logos-divider {
+            width: 75%;
+            height: 2px;
+            background: #9ca3af;
+            margin-bottom: 3rem;
+        }
+
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: nowrap;
+            max-width: 1200px;
+        }
+
+        .logo-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .logo-item:hover {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+
+        .logo-item img {
+            height: 180px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .location-text {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .location-text p {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .location-text a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .location-text a:hover {
+            color: #4a90a4;
+        }
+
+        .connect-text {
+            margin-top: 2.5rem;
+            text-align: center;
+        }
+
+        .connect-text p {
+            font-size: 1.1rem;
+            color: #4b5563;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .coordinator-text {
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .coordinator-text p {
+            font-size: 1rem;
+            color: #4b5563;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            color: #4b5563;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: #4a90a4;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(74, 144, 164, 0.3);
+        }
+
+        .social-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Copyright Footer */
+        .copyright-footer {
+            background: #2d2d2d;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .copyright-footer p {
+            color: #ffffff;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .copyright-footer a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .tba-section {
+                padding: 4rem 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                background: rgba(90, 90, 90, 0.75) !important;
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            }
+
+            .nav-container {
+                padding: 0.1rem 0;
+            }
+
+            .logo {
+                padding-left: 0.5rem;
+            }
+
+            .logo-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .logo-text {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+                padding-right: 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(110, 110, 110, 1);
+                flex-direction: column;
+                gap: 0;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+                padding: 1rem 0;
+                margin-left: 0;
+                padding-right: 0;
+            }
+
+            .nav-menu.active {
+                display: flex;
+                animation: smoothSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+
+            .nav-menu.closing {
+                display: flex;
+                animation: smoothSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+
+            @keyframes smoothSlideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-30px) scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            @keyframes smoothSlideOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-30px) scale(0.95);
+                }
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .nav-menu li a {
+                display: block;
+                padding: 1rem 2rem;
+            }
+
+            .nav-menu li.disabled {
+                opacity: 0.4;
+                pointer-events: none;
+            }
+
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                background: rgba(75, 75, 75, 1);
+                margin: 0;
+                border-radius: 0;
+                border-left: 3px solid #14b8a6;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown.active .dropdown-menu li {
+                opacity: 0;
+                transform: translateY(-10px);
+                animation: dropdownItemFadeIn 0.3s ease forwards;
+            }
+
+            .dropdown.closing .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown.closing .dropdown-menu li {
+                opacity: 1;
+                transform: translateY(0);
+                animation: dropdownItemFadeOut 0.25s ease forwards;
+            }
+
+            @keyframes dropdownItemFadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+            }
+
+            .dropdown.active .dropdown-menu li:nth-child(1) { animation-delay: 0.05s; }
+            .dropdown.active .dropdown-menu li:nth-child(2) { animation-delay: 0.1s; }
+            .dropdown.active .dropdown-menu li:nth-child(3) { animation-delay: 0.15s; }
+            .dropdown.active .dropdown-menu li:nth-child(4) { animation-delay: 0.2s; }
+            .dropdown.active .dropdown-menu li:nth-child(5) { animation-delay: 0.25s; }
+            .dropdown.active .dropdown-menu li:nth-child(6) { animation-delay: 0.3s; }
+            .dropdown.active .dropdown-menu li:nth-child(7) { animation-delay: 0.35s; }
+
+            .dropdown.closing .dropdown-menu li:nth-child(7) { animation-delay: 0s; }
+            .dropdown.closing .dropdown-menu li:nth-child(6) { animation-delay: 0.05s; }
+            .dropdown.closing .dropdown-menu li:nth-child(5) { animation-delay: 0.1s; }
+            .dropdown.closing .dropdown-menu li:nth-child(4) { animation-delay: 0.15s; }
+            .dropdown.closing .dropdown-menu li:nth-child(3) { animation-delay: 0.2s; }
+            .dropdown.closing .dropdown-menu li:nth-child(2) { animation-delay: 0.25s; }
+            .dropdown.closing .dropdown-menu li:nth-child(1) { animation-delay: 0.3s; }
+
+            .dropdown.active > a {
+                background: rgba(20, 184, 166, 0.25);
+                color: #ffd4a3;
+                font-weight: 600;
+            }
+
+            .dropdown > a::after {
+                float: right;
+                transition: transform 0.3s;
+            }
+
+            .dropdown.active > a::after {
+                transform: rotate(180deg);
+            }
+
+            .dropdown-menu li a {
+                padding: 0.8rem 2rem 0.8rem 3rem;
+                font-size: 0.95rem;
+                color: #e5e5e5;
+            }
+
+            .dropdown-menu li a:hover {
+                padding-left: 3.5rem;
+                background: rgba(20, 184, 166, 0.2);
+                color: #ffffff;
+            }
+
+            .main-content {
+                margin-top: 70px;
+                padding: 3rem 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .tba-section {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .tba-icon {
+                width: 90px;
+                height: 90px;
+            }
+
+            .tba-icon svg {
+                width: 45px;
+                height: 45px;
+            }
+
+            .tba-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .tba-section p {
+                font-size: 1.05rem;
+            }
+
+            .tba-notice {
+                padding: 1.5rem;
+            }
+
+            .tba-notice p {
+                font-size: 1rem;
+            }
+
+            .contact-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .contact-section h3 {
+                font-size: 1.3rem;
+            }
+
+            .contact-section p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="unilogo.png" alt="EMCIS Logo" class="logo-image">
+                <span class="logo-text">MEDI 2026</span>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" onclick="toggleDropdown(event, this.parentElement)">Program</a>
+                    <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                        <li><a href="acceptedpapers.html">Accepted Papers</a></li>
+                        <li><a href="conferenceprogram.html">Conference Program</a></li>
+                        <li><a href="keynotespeakers.html">Keynote Speakers</a></li>
+                        <li><a href="conferenceevent.html">Conference Events</a></li>
+                        <li><a href="venue.html">Venue</a></li>
+                        <li><a href="medi2026rec.html">MEDI 2025 Recorded Sessions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" onclick="toggleDropdown(event, this.parentElement)">Organization</a>
+                    <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                        <li><a href="conferencechairs.html">Conference Chairs</a></li>
+                        <li><a href="programcommittee.html">Program Committee</a></li>
+                        <li><a href="organizingcommittee.html">Organizing Committee</a></li>
+                        <li><a href="sponsors.html">Sponsors</a></li>
+                        <li><a href="#previous-versions">Previous Versions</a></li>
+                        <li><a href="#hotels-around">Hotels Around Conference</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" onclick="toggleDropdown(event, this.parentElement)">Registration</a>
+                    <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                        <li><a href="#payment">Payment</a></li>
+                        <li><a href="#registration">Registration</a></li>
+                        <li><a href="#registration-fees">Registration Fees</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" onclick="toggleDropdown(event, this.parentElement)">For Authors</a>
+                    <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                        <li><a href="#topics-of-interest">Topics of Interest</a></li>
+                        <li><a href="#conference-proceeding">Conference Proceeding</a></li>
+                        <li><a href="#camera-ready">Camera Ready Paper Submission</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Keynote Speakers</h1>
+                <div class="header-line"></div>
+            </div>
+
+            <!-- TBA Section -->
+            <div class="tba-section">
+                <div class="tba-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                </div>
+                
+                <h2>To Be Announced (TBA)</h2>
+                
+                <p>
+                    The keynote speakers for MEDI 2026 will be announced here following the completion of our invitation process. We are currently reaching out to distinguished researchers and will announce the speakers after confirmations.
+                </p>
+                
+                <div class="tba-notice">
+                    <p>
+                        <strong>Important:</strong> Keynote speakers will be announced soon. Please check back for the complete list of speakers who will present at the conference.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <h3>Questions About the Program?</h3>
+                <p>
+                    For inquiries regarding the conference program or schedule, please contact us at 
+                    <a href="mailto:info@medi-conf.org">info@medi-conf.org</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logos Section -->
+    <section class="logos-section">
+        <div class="logos-divider scroll-animate"></div>
+        <div class="logos-container scroll-animate">
+           
+            <div class="logo-item">
+                <img src="logo.png" alt="Logo 2">
+            </div>
+        </div>
+        <div class="location-text scroll-animate">
+            <p><a href="https://maps.google.com/?q=Danais+Avenue+2,+8042+Paphos,+Cyprus" target="_blank" rel="noopener noreferrer">Danais Avenue 2, 8042 Paphos, Cyprus</a></p>
+        </div>
+        <div class="connect-text scroll-animate">
+            <p>Connect with us</p>
+        </div>
+        <div class="coordinator-text scroll-animate">
+            <p>COORDINATOR – TerkoWebs</p>
+        </div>
+        <div class="social-icons scroll-animate">
+            <a href="mailto:info@emcis.org" class="social-icon" aria-label="Email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m2 7 10 6 10-6"/>
+                </svg>
+            </a>
+            <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"/>
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>
+                </svg>
+            </a>
+            <a href="tel:+1234567890" class="social-icon" aria-label="Phone">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Copyright Footer -->
+    <footer class="copyright-footer">
+        <a href="https://terkowebs.com" target="_blank"><p>&copy; 2025 TerkoWebs. All rights reserved.</p></a> 
+    </footer>
+
+    <script>
+        // Navbar scroll effect for desktop
+        function handleNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            
+            // Only apply transparent effect on desktop screens
+            if (window.innerWidth > 768) {
+                if (window.scrollY < 50) {
+                    navbar.classList.add('transparent');
+                } else {
+                    navbar.classList.remove('transparent');
+                }
+            } else {
+                // Remove transparent class on mobile
+                navbar.classList.remove('transparent');
+            }
+        }
+
+        // Initialize navbar state on load
+        window.addEventListener('load', handleNavbarScroll);
+        
+        // Update navbar on scroll
+        window.addEventListener('scroll', handleNavbarScroll);
+        
+        // Update navbar on window resize
+        window.addEventListener('resize', handleNavbarScroll);
+
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            const isClosing = navMenu.classList.contains('active');
+            
+            if (isClosing) {
+                // Add closing animation
+                navMenu.classList.remove('active');
+                navMenu.classList.add('closing');
+                menuToggle.classList.remove('active');
+                
+                // Restore scroll position and allow scrolling
+                const scrollY = document.body.style.top;
+                document.body.classList.remove('menu-open');
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+                
+                // Close all dropdowns
+                const allDropdowns = document.querySelectorAll('.dropdown');
+                allDropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+                const allMenuItems = document.querySelectorAll('.nav-menu > li');
+                allMenuItems.forEach(item => {
+                    item.classList.remove('disabled');
+                });
+                
+                // Remove closing class after animation completes
+                setTimeout(() => {
+                    navMenu.classList.remove('closing');
+                }, 300);
+            } else {
+                // Store current scroll position
+                const scrollY = window.scrollY;
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.width = '100%';
+                
+                // Open menu
+                navMenu.classList.remove('closing');
+                navMenu.classList.add('active');
+                menuToggle.classList.add('active');
+                document.body.classList.add('menu-open');
+            }
+        }
+
+        function toggleDropdown(event, element) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (window.innerWidth <= 768) {
+                const wasActive = element.classList.contains('active');
+                
+                if (wasActive) {
+                    // Add closing animation
+                    element.classList.remove('active');
+                    element.classList.add('closing');
+                    
+                    // Re-enable other menu items
+                    const allMenuItems = document.querySelectorAll('.nav-menu > li');
+                    allMenuItems.forEach(item => {
+                        item.classList.remove('disabled');
+                    });
+                    
+                    // Remove closing class after animation completes
+                    setTimeout(() => {
+                        element.classList.remove('closing');
+                    }, 550); // Wait for all items to animate out
+                } else {
+                    // Close all other dropdowns first
+                    const allDropdowns = document.querySelectorAll('.dropdown');
+                    allDropdowns.forEach(dropdown => {
+                        if (dropdown.classList.contains('active')) {
+                            dropdown.classList.remove('active');
+                            dropdown.classList.add('closing');
+                            setTimeout(() => {
+                                dropdown.classList.remove('closing');
+                            }, 550);
+                        }
+                    });
+                    
+                    // Open this dropdown
+                    element.classList.remove('closing');
+                    element.classList.add('active');
+                    
+                    // Disable other menu items
+                    const allMenuItems = document.querySelectorAll('.nav-menu > li');
+                    allMenuItems.forEach(item => {
+                        if (item !== element) {
+                            item.classList.add('disabled');
+                        }
+                    });
+                }
+            }
+        }
+
+        // Scroll Animation Observer
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-scale');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+            
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Initialize animations when page loads
+        window.addEventListener('load', initScrollAnimations);
+    </script>
+</body>
+</html>

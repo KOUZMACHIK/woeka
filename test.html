@@ -1,0 +1,2220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMCIS 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        /* Navbar */
+        nav {
+            background: rgba(90, 90, 90, 1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #ffffff;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+
+        /* Transparent navbar on desktop - LIGHTER GREY BLUR */
+        @media (min-width: 769px) {
+            nav.transparent {
+                background: rgba(90, 90, 90, 0.6);
+                backdrop-filter: blur(12px);
+                box-shadow: none;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            }
+
+            nav.transparent .logo {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        .nav-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        /* Centered navigation when scrolled */
+        @media (min-width: 769px) {
+            nav:not(.transparent) .nav-container {
+                justify-content: center;
+                padding-left: 160px;
+                padding-right: 2rem;
+                padding-top: 0.3rem;
+                padding-bottom: 0.3rem;
+            }
+
+            nav:not(.transparent) .logo {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            nav:not(.transparent) .nav-menu {
+                margin-left: 0;
+                padding-right: 0;
+            }
+        }
+
+        /* Tablet screens - adjust spacing to prevent overlap */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            nav:not(.transparent) .nav-container {
+                justify-content: space-between;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            nav:not(.transparent) .logo {
+                font-size: 1.1rem;
+                position: relative;
+                left: 0;
+                transform: none;
+            }
+
+            nav:not(.transparent) .nav-menu {
+                margin-left: auto;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .nav-menu li a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Smaller tablets and narrow screens */
+        @media (min-width: 769px) and (max-width: 900px) {
+            nav:not(.transparent) .logo {
+                font-size: 0.95rem;
+            }
+
+            .nav-menu {
+                gap: 0.8rem;
+            }
+
+            .nav-menu li a {
+                font-size: 0.8rem;
+            }
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 0 0 auto;
+            padding-left: 1rem;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .logo-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Smaller logo when scrolled */
+        @media (min-width: 769px) {
+            nav:not(.transparent) .logo-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Hamburger Menu Icon */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #ffffff;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin-left: auto;
+            padding-right: 1rem;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-menu li a:hover {
+            color: #ffd4a3;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown > a {
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #ddf2f8;
+            min-width: 220px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0;
+            z-index: 1001;
+        }
+
+        /* Right-align dropdown for last menu item */
+        .nav-menu li:last-child .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+
+        /* Right-align dropdown for last two menu items on tablet screens */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .nav-menu li:nth-last-child(-n+2) .dropdown-menu {
+                left: auto;
+                right: 0;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: dropdownItemFadeIn 0.3s ease forwards;
+        }
+
+        .dropdown-menu li:nth-child(1) { animation-delay: 0.05s; }
+        .dropdown-menu li:nth-child(2) { animation-delay: 0.1s; }
+        .dropdown-menu li:nth-child(3) { animation-delay: 0.15s; }
+        .dropdown-menu li:nth-child(4) { animation-delay: 0.2s; }
+        .dropdown-menu li:nth-child(5) { animation-delay: 0.25s; }
+        .dropdown-menu li:nth-child(6) { animation-delay: 0.3s; }
+        .dropdown-menu li:nth-child(7) { animation-delay: 0.35s; }
+
+        @keyframes dropdownItemFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .dropdown-menu li a:hover {
+            background: #a8d5e6;
+            color: #333;
+            padding-left: 2rem;
+        }
+
+        .dropdown > a::after {
+            content: ' ▾';
+            font-size: 0.8rem;
+        }
+
+        /* Hero Image Section */
+        .hero-image {
+            margin-top: 0;
+            width: 100%;
+            height: 500px;
+            background: url(oneiro.jpg) center/cover no-repeat;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-placeholder {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .hero-logo-container {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-logo {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.8));
+        }
+
+        .hero-placeholder p {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .hero-placeholder p:first-of-type {
+            margin-top: -3.5rem;
+        }
+
+        /* Scroll Animation Classes */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-animate.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-animate-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-animate-left.animate-in {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-animate-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-animate-right.animate-in {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-animate-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-animate-scale.animate-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* About Section - Simple and Professional */
+        .about-section {
+            max-width: 100%;
+            margin: 5rem 0;
+            padding: 0 2rem;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-header h1 {
+            font-size: 2.8rem;
+            color: #2d2d2d;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .header-line {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #2d2d2d, #4a90a4);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Single Column Layout */
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .about-description {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #4a90a4;
+        }
+
+        .about-description h3 {
+            font-size: 1.5rem;
+            color: #4a90a4;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .about-description p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .about-description p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Proceedings Section */
+        .proceedings-section {
+            margin-top: 4rem;
+            padding: 0;
+        }
+
+        .proceedings-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 3px solid #4a90a4;
+            box-shadow: 0 4px 20px rgba(74, 144, 164, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .proceedings-logo {
+            width: 150px;
+            height: auto;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .proceedings-content p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #333;
+            margin: 0;
+        }
+
+        /* Important Dates Modern Card Section */
+        .timeline-section {
+            margin: 5rem 0;
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .timeline-header h2 {
+            font-size: 2.8rem;
+            color: #2d2d2d;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        /* Super large screens - bigger header */
+        @media (min-width: 3000px) {
+            .timeline-header h2 {
+                font-size: 4rem;
+            }
+
+            .timeline-section {
+                padding: 7rem 4rem;
+            }
+        }
+
+        .timeline-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Super large screens - full width */
+        @media (min-width: 3000px) {
+            .timeline-container {
+                max-width: 100%;
+                padding: 0 4rem;
+            }
+
+            .timeline-items {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3rem;
+            }
+
+            .timeline-item {
+                padding: 3rem;
+            }
+
+            .timeline-dot {
+                width: 100px;
+                height: 100px;
+                border-radius: 20px;
+            }
+
+            .date-month {
+                font-size: 1.3rem;
+            }
+
+            .date-day {
+                font-size: 2.2rem;
+            }
+
+            .timeline-title {
+                font-size: 1.8rem;
+            }
+
+            .timeline-description {
+                font-size: 1.3rem;
+            }
+
+            .timeline-badge {
+                font-size: 1.1rem;
+                padding: 0.6rem 1.5rem;
+            }
+        }
+
+        .timeline-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+        }
+
+        .timeline-item {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #1e3a8a 0%, #3b82f6 100%);
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(1)::before { background: linear-gradient(to bottom, #0f766e 0%, #14b8a6 100%); }
+        
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(2)::before { background: linear-gradient(to bottom, #0e7490 0%, #06b6d4 100%); }
+        
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(3)::before { background: linear-gradient(to bottom, #0f766e 0%, #14b8a6 100%); }
+        
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(4)::before { background: linear-gradient(to bottom, #0e7490 0%, #06b6d4 100%); }
+        
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(5)::before { background: linear-gradient(to bottom, #0f766e 0%, #14b8a6 100%); }
+        
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(6)::before { background: linear-gradient(to bottom, #0e7490 0%, #06b6d4 100%); }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-dot {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-item:nth-child(1) .timeline-dot { background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%); }
+        .timeline-item:nth-child(2) .timeline-dot { background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%); }
+        .timeline-item:nth-child(3) .timeline-dot { background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%); }
+        .timeline-item:nth-child(4) .timeline-dot { background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%); }
+        .timeline-item:nth-child(5) .timeline-dot { background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%); }
+        .timeline-item:nth-child(6) .timeline-dot { background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%); }
+
+        .date-month {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .date-day {
+            font-size: 1.8rem;
+            line-height: 1;
+            margin-top: 0.2rem;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-date {
+            display: none;
+        }
+
+        .timeline-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .timeline-description {
+            font-size: 1rem;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .timeline-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: #e0f2fe;
+            color: #0c4a6e;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.8rem;
+        }
+
+        /* Professional Image Gallery Section */
+        .gallery-section {
+            margin: 5rem 0;
+            padding: 0 2rem;
+            background: linear-gradient(135deg, #f8fbfc 0%, #e8f4f8 100%);
+            padding: 5rem 2rem;
+        }
+
+        .gallery-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 3px solid #4a90a4;
+            border-radius: 16px;
+            padding: 3rem;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Super large screens - full width */
+        @media (min-width: 3000px) {
+            .gallery-wrapper {
+                max-width: 100%;
+            }
+
+            .gallery-header h2 {
+                font-size: 3.5rem;
+            }
+
+            .gallery-subtext {
+                font-size: 1.5rem;
+                max-width: 1200px;
+            }
+
+            .paphos-trail-text h3 {
+                font-size: 2.5rem;
+            }
+
+            .gallery-container {
+                gap: 4rem;
+            }
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-header h2 {
+            font-size: 2.5rem;
+            color: #2d2d2d;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .gallery-subtext {
+            font-size: 1.15rem;
+            color: #4b5563;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .paphos-trail-text {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e8f4f8;
+        }
+
+        .paphos-trail-text h3 {
+            font-size: 1.8rem;
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .gallery-item {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .gallery-image-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-image-wrapper:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(74, 144, 164, 0.35);
+        }
+
+        .gallery-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gallery-image-wrapper:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(45, 45, 45, 0.95) 0%, rgba(45, 45, 45, 0.7) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+        }
+
+        .gallery-image-wrapper:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .overlay-content {
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-image-wrapper:hover .overlay-content {
+            transform: translateY(0);
+        }
+
+        .overlay-content h3 {
+            color: #ffffff;
+            font-size: clamp(0.85rem, 1.8vw, 1.5rem);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            transition: font-size 0.3s ease;
+        }
+
+        .overlay-content p {
+            color: #e8f4f8;
+            font-size: clamp(0.7rem, 1.3vw, 1rem);
+            line-height: 1.4;
+            margin: 0;
+            transition: font-size 0.3s ease;
+        }
+
+        /* Small tablets and larger phones (portrait) */
+        @media (min-width: 600px) and (max-width: 768px) {
+            .overlay-content h3 {
+                font-size: 0.95rem;
+            }
+
+            .overlay-content p {
+                font-size: 0.75rem;
+                line-height: 1.3;
+            }
+
+            .gallery-overlay {
+                padding: 1rem;
+            }
+        }
+
+        /* Medium screens (tablets) - ensure text fits properly */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .overlay-content h3 {
+                font-size: 1.05rem;
+            }
+
+            .overlay-content p {
+                font-size: 0.8rem;
+                line-height: 1.35;
+            }
+
+            .gallery-overlay {
+                padding: 1.2rem;
+            }
+        }
+
+        /* Medium-large screens */
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            .overlay-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .overlay-content p {
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+        }
+
+        /* Text zoom on hover for large screens */
+        @media (min-width: 1400px) {
+            .gallery-image-wrapper:hover .overlay-content h3 {
+                font-size: 1.75rem;
+            }
+
+            .gallery-image-wrapper:hover .overlay-content p {
+                font-size: 1.15rem;
+            }
+        }
+
+        /* Organized By Section */
+        .organized-section {
+            background: linear-gradient(135deg, #f8fbfc 0%, #e8f4f8 100%);
+            padding: 5rem 2rem;
+        }
+
+        .organized-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 3px solid #4a90a4;
+            border-radius: 16px;
+            padding: 2.5rem 3rem;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .organized-content {
+            display: grid;
+            grid-template-columns: auto auto 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .organized-content h2 {
+            font-size: 2.5rem;
+            color: #4b5563;
+            font-weight: 400;
+            margin: 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            white-space: nowrap;
+        }
+
+        .organized-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .organized-logo a {
+            display: inline-block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .organized-logo a:hover {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+
+        .organized-logo img {
+            height: 180px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .organized-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .organized-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        /* Super large screens - full width */
+        @media (min-width: 3000px) {
+            .organized-wrapper {
+                max-width: 100%;
+            }
+
+            .organized-content {
+                gap: 5rem;
+            }
+
+            .organized-logo img {
+                height: 250px;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1400px) {
+            .organized-container {
+                max-width: 100%;
+                padding: 0 4rem;
+            }
+
+            .organized-image {
+                max-height: 700px;
+            }
+
+            .organized-image img {
+                max-height: 700px;
+            }
+        }
+
+        /* Extra large screens */
+        @media (min-width: 2000px) {
+            .organized-container {
+                max-width: 100%;
+                padding: 0 6rem;
+            }
+
+            .organized-image {
+                max-height: 800px;
+            }
+
+            .organized-image img {
+                max-height: 800px;
+            }
+        }
+
+        /* Ultra large screens */
+        @media (min-width: 3000px) {
+            .organized-container {
+                max-width: 100%;
+                padding: 0 8rem;
+            }
+
+            .organized-image {
+                max-height: 1000px;
+            }
+
+            .organized-image img {
+                max-height: 1000px;
+            }
+        }
+
+        /* Logos Section */
+        .logos-section {
+            background: white;
+            padding: 4rem 2rem 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logos-divider {
+            width: 75%;
+            height: 2px;
+            background: #9ca3af;
+            margin-bottom: 3rem;
+        }
+
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: nowrap;
+            max-width: 1200px;
+        }
+
+        .logo-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .logo-item:hover {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+
+        .logo-item img {
+            height: 180px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .location-text {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .location-text p {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .location-text a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .location-text a:hover {
+            color: #4a90a4;
+        }
+
+        .connect-text {
+            margin-top: 2.5rem;
+            text-align: center;
+        }
+
+        .connect-text p {
+            font-size: 1.1rem;
+            color: #4b5563;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .coordinator-text {
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .coordinator-text p {
+            font-size: 1rem;
+            color: #4b5563;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            color: #4b5563;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: #4a90a4;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(74, 144, 164, 0.3);
+        }
+
+        .social-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Copyright Footer */
+        .copyright-footer {
+            background: #2d2d2d;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .copyright-footer p {
+            color: #ffffff;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .copyright-footer a{
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .timeline-items {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                background: rgba(90, 90, 90, 0.75) !important;
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            }
+
+            .hero-image {
+                margin-top: 0;
+                padding-top: 60px;
+            }
+
+            .nav-container {
+                padding: 0.1rem 0;
+            }
+
+            .logo {
+                padding-left: 0.5rem;
+            }
+
+            .logo-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .logo-text {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+                padding-right: 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(110, 110, 110, 1);
+                flex-direction: column;
+                gap: 0;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+                padding: 1rem 0;
+                margin-left: 0;
+                padding-right: 0;
+            }
+
+            .nav-menu.active {
+                display: flex;
+                animation: smoothSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+
+            .nav-menu.closing {
+                display: flex;
+                animation: smoothSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+
+            @keyframes smoothSlideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-30px) scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            @keyframes smoothSlideOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-30px) scale(0.95);
+                }
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .nav-menu li a {
+                display: block;
+                padding: 1rem 2rem;
+            }
+
+            .nav-menu li.disabled {
+                opacity: 0.4;
+                pointer-events: none;
+            }
+
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                background: rgba(75, 75, 75, 1);
+                margin: 0;
+                border-radius: 0;
+                border-left: 3px solid #14b8a6;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown.active .dropdown-menu li {
+                opacity: 0;
+                transform: translateY(-10px);
+                animation: dropdownItemFadeIn 0.3s ease forwards;
+            }
+
+            .dropdown.closing .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown.closing .dropdown-menu li {
+                opacity: 1;
+                transform: translateY(0);
+                animation: dropdownItemFadeOut 0.25s ease forwards;
+            }
+
+            @keyframes dropdownItemFadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+            }
+
+            .dropdown.active .dropdown-menu li:nth-child(1) { animation-delay: 0.05s; }
+            .dropdown.active .dropdown-menu li:nth-child(2) { animation-delay: 0.1s; }
+            .dropdown.active .dropdown-menu li:nth-child(3) { animation-delay: 0.15s; }
+            .dropdown.active .dropdown-menu li:nth-child(4) { animation-delay: 0.2s; }
+            .dropdown.active .dropdown-menu li:nth-child(5) { animation-delay: 0.25s; }
+            .dropdown.active .dropdown-menu li:nth-child(6) { animation-delay: 0.3s; }
+            .dropdown.active .dropdown-menu li:nth-child(7) { animation-delay: 0.35s; }
+
+            .dropdown.closing .dropdown-menu li:nth-child(7) { animation-delay: 0s; }
+            .dropdown.closing .dropdown-menu li:nth-child(6) { animation-delay: 0.05s; }
+            .dropdown.closing .dropdown-menu li:nth-child(5) { animation-delay: 0.1s; }
+            .dropdown.closing .dropdown-menu li:nth-child(4) { animation-delay: 0.15s; }
+            .dropdown.closing .dropdown-menu li:nth-child(3) { animation-delay: 0.2s; }
+            .dropdown.closing .dropdown-menu li:nth-child(2) { animation-delay: 0.25s; }
+            .dropdown.closing .dropdown-menu li:nth-child(1) { animation-delay: 0.3s; }
+
+            .dropdown.active > a {
+                background: rgba(20, 184, 166, 0.25);
+                color: #ffd4a3;
+                font-weight: 600;
+            }
+
+            .dropdown > a::after {
+                float: right;
+                transition: transform 0.3s;
+            }
+
+            .dropdown.active > a::after {
+                transform: rotate(180deg);
+            }
+
+            .dropdown-menu li a {
+                padding: 0.8rem 2rem 0.8rem 3rem;
+                font-size: 0.95rem;
+                color: #e5e5e5;
+            }
+
+            .dropdown-menu li a:hover {
+                padding-left: 3.5rem;
+                background: rgba(20, 184, 166, 0.2);
+                color: #ffffff;
+            }
+
+            .hero-image {
+                height: 300px;
+            }
+
+            .hero-logo-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .hero-placeholder p {
+                font-size: 1rem;
+            }
+
+            .about-section {
+                margin: 3rem auto;
+                padding: 0 1rem;
+            }
+
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .about-header h1 {
+                font-size: 2rem;
+            }
+
+            .about-description {
+                padding: 2rem 1.5rem;
+            }
+
+            .about-description p {
+                font-size: 1.05rem;
+                text-align: left;
+            }
+
+            .proceedings-section {
+                margin-top: 3rem;
+            }
+
+            .proceedings-content {
+                padding: 2rem 1.5rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .proceedings-logo {
+                width: 120px;
+            }
+
+            .proceedings-content p {
+                font-size: 1.05rem;
+            }
+
+            /* Timeline Mobile Styles */
+            .timeline-section {
+                padding: 3rem 1rem;
+            }
+
+            .timeline-header h2 {
+                font-size: 2rem;
+            }
+
+            .timeline-items {
+                gap: 1.5rem;
+            }
+
+            .timeline-item {
+                padding: 1.5rem;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .timeline-dot {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 1rem;
+            }
+
+            .date-month {
+                font-size: 0.9rem;
+            }
+
+            .date-day {
+                font-size: 1.5rem;
+            }
+
+            .timeline-title {
+                font-size: 1.2rem;
+            }
+
+            .timeline-description {
+                font-size: 0.9rem;
+            }
+
+            .gallery-section {
+                margin: 3rem 0;
+                padding: 3rem 1rem;
+            }
+
+            .gallery-wrapper {
+                padding: 2rem 1.5rem;
+            }
+
+            .gallery-header h2 {
+                font-size: 2rem;
+            }
+
+            .gallery-subtext {
+                font-size: 1rem;
+            }
+
+            .gallery-header {
+                margin-bottom: 2.5rem;
+            }
+
+            .paphos-trail-text h3 {
+                font-size: 1.5rem;
+            }
+
+            .gallery-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding: 0;
+            }
+
+            .gallery-item:nth-child(3) {
+                grid-column: 1 / -1;
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .gallery-image-wrapper:hover {
+                transform: translateY(-4px) scale(1.01);
+            }
+
+            .gallery-overlay {
+                padding: 0.75rem;
+            }
+
+            .organized-section {
+                padding: 3rem 1rem;
+            }
+
+            .organized-wrapper {
+                padding: 1.5rem;
+            }
+
+            .organized-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .organized-content h2 {
+                font-size: 1.5rem;
+                grid-column: 1;
+            }
+
+            .organized-logo {
+                grid-column: 1;
+            }
+
+            /* Keep text and logo in same row on mobile */
+            @media (max-width: 768px) {
+                .organized-content {
+                    grid-template-columns: auto auto;
+                    grid-template-rows: auto auto;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.5rem 1rem;
+                }
+
+                .organized-content h2 {
+                    grid-column: 1;
+                    grid-row: 1;
+                }
+
+                .organized-logo {
+                    grid-column: 2;
+                    grid-row: 1;
+                }
+
+                .organized-image {
+                    grid-column: 1 / -1;
+                    grid-row: 2;
+                    margin-top: 1rem;
+                }
+            }
+
+            .organized-logo img {
+                height: 140px;
+            }
+
+            .organized-image {
+                border-radius: 12px;
+            }
+        }
+
+        /* Extra small screens (iPhone SE and similar) */
+        @media (max-width: 375px) {
+            .organized-section {
+                padding: 2rem 0.75rem;
+            }
+
+            .organized-wrapper {
+                padding: 1.5rem 1rem;
+            }
+
+            .organized-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .organized-logo img {
+                height: 110px;
+            }
+
+            .organized-image {
+                border-radius: 8px;
+            }
+        }
+
+        /* Extra small screens (iPhone SE and similar) */
+        @media (max-width: 375px) {
+            .logos-section {
+                padding: 3rem 1rem 4rem;
+            }
+
+            .logos-divider {
+                width: 80%;
+                margin-bottom: 2rem;
+            }
+
+            .logos-container {
+                gap: 0.5rem;
+                flex-wrap: nowrap;
+            }
+
+            .logo-item img {
+                height: 100px;
+            }
+
+            .location-text p {
+                font-size: 0.95rem;
+            }
+
+            .connect-text p {
+                font-size: 0.95rem;
+            }
+
+            .coordinator-text p {
+                font-size: 0.9rem;
+            }
+
+            .social-icons {
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .social-icon svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 375px) {
+            .logos-container {
+                gap: 0.3rem;
+            }
+
+            .logo-item img {
+                height: 80px;
+            }
+
+            .location-text p {
+                font-size: 0.85rem;
+            }
+
+            .connect-text p {
+                font-size: 0.85rem;
+            }
+
+            .coordinator-text p {
+                font-size: 0.8rem;
+            }
+
+            .social-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .social-icon svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="unilogo.png" alt="EMCIS Logo" class="logo-image">
+                <span class="logo-text">MEDI 2026</span>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home">Home</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" onclick="toggleDropdown(event, this.parentElement)">Program</a>
+                    <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                        <li><a href="acceptedpapers.html">Accepted Papers</a></li>
+                        <li><a href="conferenceprogram.html">Conference Program</a></li>
+                        <li><a href="keynotespeakers.html">Keynote Speakers</a></li>
+                        <li><a href="conferenceevent.html">Conference Events</a></li>
+                        <li><a href="venue.html">Venue</a></li>
+                        <li><a href="medi2026rec.html">MEDI 2025 Recorded Sessions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" onclick="toggleDropdown(event, this.parentElement)">Organization</a>
+                    <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                        <li><a href="conferencechairs.html">Conference Chairs</a></li>
+                        <li><a href="programcommittee.html">Program Committee</a></li>
+                        <li><a href="organizingcommittee.html">Organizing Committee</a></li>
+                        <li><a href="sponsors.html">Sponsors</a></li>
+                        <li><a href="#previous-versions">Previous Versions</a></li>
+                        <li><a href="#hotels-around">Hotels Around Conference</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" onclick="toggleDropdown(event, this.parentElement)">Registration</a>
+                    <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                        <li><a href="#payment">Payment</a></li>
+                        <li><a href="#registration">Registration</a></li>
+                        <li><a href="#registration-fees">Registration Fees</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" onclick="toggleDropdown(event, this.parentElement)">For Authors</a>
+                    <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                        <li><a href="#topics-of-interest">Topics of Interest</a></li>
+                        <li><a href="#conference-proceeding">Conference Proceeding</a></li>
+                        <li><a href="#camera-ready">Camera Ready Paper Submission</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Image Section -->
+    <section class="hero-image">
+        <div class="hero-placeholder">
+            <!-- Logo Container - Replace 'your-logo.png' with your actual logo file -->
+            <div class="hero-logo-container">
+                <img src="logo.png" alt="EMCIS 2025 Logo" class="hero-logo">
+            </div>
+            <p>International Conference on Model and Data Engineering</p>
+            <p>September 23-25, 2026 | Paphos, Cyprus</p>
+        </div>
+    </section>
+
+    <!-- About EMCIS Section -->
+    <section class="about-section" id="home">
+        <div class="about-header scroll-animate">
+            <h1>About MEDI</h1>
+            <div class="header-line"></div>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="about-description scroll-animate-left">
+                <h3 style="text-align: center; font-size: 1.8rem; color: #4a90a4; margin-bottom: 2rem;">International Conference on Model and Data Engineering (MEDI)</h3>
+                <p>
+                    The 15th International Conference on Model and Data Engineering (MEDI 2026) will take place at Neapolis University Pafos in Pafos, Cyprus.
+Cyprus is a place where centuries-old history blends seamlessly with contemporary advancements. MEDI 2026 provides a special chance to engage with state-of-the-art research in model and data engineering while experiencing the island's rich cultural and historical backdrop.
+The conference seeks to unite researchers, professionals, and industry experts from across the globe to present new discoveries, examine emerging developments, and encourage collaboration in the areas of model and data engineering. We welcome submissions of high-quality research papers, industry case studies, and forward-looking contributions that advance both the theoretical and practical aspects of these domains.
+                </p>
+                
+                <p style="margin-top: 2rem; font-weight: 600; color: #4a90a4; text-align: center; font-size: 1.3rem;" class="scroll-animate">Areas of interest for MEDI 2026 include, but are not limited to:</p>
+                
+                <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+                    <!-- Left Column -->
+                    <div>
+                        <div style="background: #f8fbfc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #4a90a4;" class="scroll-animate-left">
+                            <p style="font-weight: 600; color: #2d2d2d; font-size: 1.15rem; margin-bottom: 0.8rem;">Artificial Intelligence (AI)</p>
+                            <p style="font-size: 1rem; line-height: 1.7; color: #333; margin: 0;">
+                                • Modelling approaches for Generative AI<br>
+                                • Modelling techniques for Large Language Models<br>
+                                • Models supporting Explainable AI
+                            </p>
+                        </div>
+                        
+                        <div style="background: #f8fbfc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #4a90a4;" class="scroll-animate-left">
+                            <p style="font-weight: 600; color: #2d2d2d; font-size: 1.15rem; margin-bottom: 0.8rem;">Modelling and Model Engineering</p>
+                            <p style="font-size: 1rem; line-height: 1.7; color: #333; margin: 0;">
+                                • Modelling languages and relevant standards<br>
+                                • Modelling in software engineering and complex systems<br>
+                                • Formal methods, including analysis, verification, and validation<br>
+                                • Model-based testing and performance evaluation<br>
+                                • Ontology-driven modelling<br>
+                                • Heterogeneous modelling, model integration, interoperability, and model transformation<br>
+                                • Collaborative modelling and management of model repositories<br>
+                                • Models offered as services and approaches to model monitoring<br>
+                                • Modelling for reuse, reliability, and maintainability<br>
+                                • Models addressing security, trust, and risk
+                            </p>
+                        </div>
+                        
+                        <div style="background: #f8fbfc; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4a90a4;" class="scroll-animate-left">
+                            <p style="font-weight: 600; color: #2d2d2d; font-size: 1.15rem; margin-bottom: 0.8rem;">Models for Data and Databases</p>
+                            <p style="font-size: 1rem; line-height: 1.7; color: #333; margin: 0;">
+                                • Modelling approaches for Big Data and NoSQL systems
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div>
+                        <div style="background: #f8fbfc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #4a90a4;" class="scroll-animate-right">
+                            <p style="font-weight: 600; color: #2d2d2d; font-size: 1.15rem; margin-bottom: 0.8rem;">Data Engineering</p>
+                            <p style="font-size: 1rem; line-height: 1.7; color: #333; margin: 0;">
+                                • Novel data models and database architectures<br>
+                                • Heterogeneous data, data integration, and interoperability<br>
+                                • Data warehouses, data lakes, OLAP, data mining, and analytics<br>
+                                • Internal aspects of database systems, including performance, self-tuning, benchmarking, and testing<br>
+                                • Database security, personalization, and recommendation systems<br>
+                                • Web-based databases and ontology-driven database approaches<br>
+                                • Data management in service-based systems<br>
+                                • Service-oriented applications<br>
+                                • Modernization and restructuring of database applications<br>
+                                • Data models for AI and machine learning methods
+                            </p>
+                        </div>
+                        
+                        <div style="background: #f8fbfc; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4a90a4;" class="scroll-animate-right">
+                            <p style="font-weight: 600; color: #2d2d2d; font-size: 1.15rem; margin-bottom: 0.8rem;">Applications and Tools</p>
+                            <p style="font-size: 1rem; line-height: 1.7; color: #333; margin: 0;">
+                                • Industrial applications and technology transfer<br>
+                                • Use of modelling in data management<br>
+                                • Modelling applications for biomedical data and systems<br>
+                                • Tools supporting modelling and experimental evaluation<br>
+                                • Insights, case reports, and practical lessons in model and data engineering
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @media (max-width: 768px) {
+                        .about-description > div[style*="grid-template-columns"] {
+                            grid-template-columns: 1fr !important;
+                        }
+                    }
+                </style>
+                
+            </div>
+        </div>
+
+        <!-- Proceedings Section -->
+        <div class="proceedings-section scroll-animate-scale">
+            <div class="proceedings-content">
+                <img src="Springer_Logo.png" alt="Springer Logo" class="proceedings-logo">
+                <p>The conference proceedings will be published as a dedicated volume in the Springer Lecture Notes in Business Information Processing (LNBIP) series. This internationally recognized series provides a high-quality forum for the dissemination of original research, innovative methodologies, and advanced applications in the field of business information systems. Inclusion in the LNBIP series ensures broad visibility within the academic and professional communities, as all accepted papers will undergo thorough editorial processing and will be made available through Springer's digital library. As a result, contributors will benefit from enhanced global reach, long-term archival, and indexing in major scholarly databases.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Image Gallery Section -->
+    <section class="gallery-section">
+        <div class="gallery-wrapper scroll-animate">
+            <div class="gallery-header">
+                <h2>Join Us in Cyprus</h2>
+                <p class="gallery-subtext">Experience the charm of Cyprus, where sun-kissed shores meet timeless traditions. Submit your papers, share your vision, and join us for this inspiring edition of MEDI. Together, let's advance the future of model and data engineering on the island where cultures connect and innovation thrives!</p>
+                <div class="header-line"></div>
+            </div>
+            <div class="gallery-container">
+                <div class="gallery-item" style="animation-delay: 0.1s;">
+                    <div class="gallery-image-wrapper">
+                        <img src="petra.jpg" alt="Conference Image 1">
+                        <div class="gallery-overlay">
+                            <div class="overlay-content">
+                                <h3>Petra tou Romiou</h3>
+                                <p>Discovering the magic of Cyprus' Petra tou Romiou</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" style="animation-delay: 0.3s;">
+                    <div class="gallery-image-wrapper">
+                        <img src="kastro.jpg" alt="Conference Image 2">
+                        <div class="gallery-overlay">
+                            <div class="overlay-content">
+                                <h3>Paphos Castle</h3>
+                                <p>A coastal landmark rich with timeless stories</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" style="animation-delay: 0.5s;">
+                    <div class="gallery-image-wrapper">
+                        <img src="limanaki.jpg" alt="Conference Image 3">
+                        <div class="gallery-overlay">
+                            <div class="overlay-content">
+                                <h3>Paphos Harbour</h3>
+                                <p>Harbour life along Paphos' scenic coast</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="paphos-trail-text">
+                <h3>Paphos Highlights Trail</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    <section class="timeline-section" id="important-dates">
+        <div class="timeline-header scroll-animate">
+            <h2>Important Dates</h2>
+            <div class="header-line"></div>
+        </div>
+        
+        <div class="timeline-container">
+            <div class="timeline-items">
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <span class="date-month">JUNE</span>
+                        <span class="date-day">30</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Electronic Submission Deadline</div>
+                        <div class="timeline-description">Final deadline for paper submissions</div>
+                        <span class="timeline-badge">2025</span>
+                    </div>
+                </div>
+
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <span class="date-month">JULY</span>
+                        <span class="date-day">28</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Notification of Acceptance</div>
+                        <div class="timeline-description">Authors will receive acceptance decisions</div>
+                        <span class="timeline-badge">2025</span>
+                    </div>
+                </div>
+
+               
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <span class="date-month">JULY</span>
+                        <span class="date-day">31</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Early Bird Registration</div>
+                        <div class="timeline-description">Last day for discounted registration rates</div>
+                        <span class="timeline-badge">2025</span>
+                    </div>
+                </div>
+
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <span class="date-month">AUG</span>
+                        <span class="date-day">3</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Camera Ready & Registration</div>
+                        <div class="timeline-description">Final paper submission and author registration deadline</div>
+                        <span class="timeline-badge">2025</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <span class="date-month">AUG</span>
+                        <span class="date-day">15</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Final Program Announcement</div>
+                        <div class="timeline-description">Complete conference schedule will be published</div>
+                        <span class="timeline-badge">2025</span>
+                    </div>
+                </div>
+
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <span class="date-month">SEPT</span>
+                        <span class="date-day">11-12</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Conference Dates</div>
+                        <div class="timeline-description">EMCIS 2025 Conference in Athens, Greece</div>
+                        <span class="timeline-badge">2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    -->
+    
+
+    <!-- Organized By Section -->
+    <section class="organized-section">
+        <div class="organized-wrapper scroll-animate">
+            <div class="organized-content">
+                <h2>Organized By</h2>
+                <div class="organized-logo">
+                    <a href="https://www.nup.ac.cy/" target="_blank" rel="noopener noreferrer">
+                        <img src="uniblue.png" alt="Organizer Logo">
+                    </a>
+                </div>
+                <div class="organized-image">
+                    <img src="neapolisfoto.jpg" alt="Organizer Image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logos Section -->
+    <section class="logos-section">
+        <div class="logos-divider scroll-animate"></div>
+        <div class="logos-container scroll-animate">
+           
+            <div class="logo-item">
+                <img src="logo.png" alt="Logo 2">
+            </div>
+        </div>
+        <div class="location-text scroll-animate">
+            <p><a href="https://maps.google.com/?q=Danais+Avenue+2,+8042+Paphos,+Cyprus" target="_blank" rel="noopener noreferrer">Danais Avenue 2, 8042 Paphos, Cyprus</a></p>
+        </div>
+        <div class="connect-text scroll-animate">
+            <p>Connect with us</p>
+        </div>
+        <div class="coordinator-text scroll-animate">
+            <p>COORDINATOR – TerkoWebs</p>
+        </div>
+        <div class="social-icons scroll-animate">
+            <a href="mailto:info@emcis.org" class="social-icon" aria-label="Email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m2 7 10 6 10-6"/>
+                </svg>
+            </a>
+            <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"/>
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>
+                </svg>
+            </a>
+            <a href="tel:+1234567890" class="social-icon" aria-label="Phone">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Copyright Footer -->
+    <footer class="copyright-footer">
+        <a href="https://terkowebs.com" target="_blank"><p>&copy; 2025 TerkoWebs. All rights reserved.</p></a> 
+    </footer>
+
+    <script>
+        // Navbar scroll effect for desktop
+        function handleNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            
+            // Only apply transparent effect on desktop screens
+            if (window.innerWidth > 768) {
+                if (window.scrollY < 50) {
+                    navbar.classList.add('transparent');
+                } else {
+                    navbar.classList.remove('transparent');
+                }
+            } else {
+                // Remove transparent class on mobile
+                navbar.classList.remove('transparent');
+            }
+        }
+
+        // Initialize navbar state on load
+        window.addEventListener('load', handleNavbarScroll);
+        
+        // Update navbar on scroll
+        window.addEventListener('scroll', handleNavbarScroll);
+        
+        // Update navbar on window resize
+        window.addEventListener('resize', handleNavbarScroll);
+
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            const isClosing = navMenu.classList.contains('active');
+            
+            if (isClosing) {
+                // Add closing animation
+                navMenu.classList.remove('active');
+                navMenu.classList.add('closing');
+                menuToggle.classList.remove('active');
+                
+                // Restore scroll position and allow scrolling
+                const scrollY = document.body.style.top;
+                document.body.classList.remove('menu-open');
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+                
+                // Close all dropdowns
+                const allDropdowns = document.querySelectorAll('.dropdown');
+                allDropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+                const allMenuItems = document.querySelectorAll('.nav-menu > li');
+                allMenuItems.forEach(item => {
+                    item.classList.remove('disabled');
+                });
+                
+                // Remove closing class after animation completes
+                setTimeout(() => {
+                    navMenu.classList.remove('closing');
+                }, 300);
+            } else {
+                // Store current scroll position
+                const scrollY = window.scrollY;
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.width = '100%';
+                
+                // Open menu
+                navMenu.classList.remove('closing');
+                navMenu.classList.add('active');
+                menuToggle.classList.add('active');
+                document.body.classList.add('menu-open');
+            }
+        }
+
+        function toggleDropdown(event, element) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (window.innerWidth <= 768) {
+                const wasActive = element.classList.contains('active');
+                
+                if (wasActive) {
+                    // Add closing animation
+                    element.classList.remove('active');
+                    element.classList.add('closing');
+                    
+                    // Re-enable other menu items
+                    const allMenuItems = document.querySelectorAll('.nav-menu > li');
+                    allMenuItems.forEach(item => {
+                        item.classList.remove('disabled');
+                    });
+                    
+                    // Remove closing class after animation completes
+                    setTimeout(() => {
+                        element.classList.remove('closing');
+                    }, 550); // Wait for all items to animate out
+                } else {
+                    // Close all other dropdowns first
+                    const allDropdowns = document.querySelectorAll('.dropdown');
+                    allDropdowns.forEach(dropdown => {
+                        if (dropdown.classList.contains('active')) {
+                            dropdown.classList.remove('active');
+                            dropdown.classList.add('closing');
+                            setTimeout(() => {
+                                dropdown.classList.remove('closing');
+                            }, 550);
+                        }
+                    });
+                    
+                    
+                    element.classList.remove('closing');
+                    element.classList.add('active');
+                    
+                    
+                    const allMenuItems = document.querySelectorAll('.nav-menu > li');
+                    allMenuItems.forEach(item => {
+                        if (item !== element) {
+                            item.classList.add('disabled');
+                        }
+                    });
+                }
+            }
+        }
+
+        
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-scale');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+            
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        
+        window.addEventListener('load', initScrollAnimations);
+    </script>
+</body>
+</html>
